@@ -4,9 +4,12 @@ import com.example.springtest.dto.UserDTO;
 import com.example.springtest.entity.User;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.springtest.repo.UserRepo;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,5 +24,10 @@ public class UserService {
 
         userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
+    }
+
+    public List<UserDTO> getAllUsers(){
+        List<User>userList=userRepo.findAll();
+        return modelMapper.map(userList, new TypeToken<List<UserDTO>>(){}.getType());
     }
 }
